@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Viewer360 from './Viewer360';
 
 const getThumbnailUrl = (url) => {
+  if (url === '/Street View 360.jpg') return '/original-thumb.jpg';
   if (!url || !url.includes('cloudinary.com/')) return url;
   const parts = url.split('/upload/');
   if (parts.length === 2) {
