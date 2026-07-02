@@ -82,7 +82,7 @@ export default function Home() {
           </h1>
           
           <p style={{ color: 'var(--accents-5)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', marginBottom: '3.5rem', maxWidth: '650px', lineHeight: '1.6' }}>
-            Download the original 360° capture, reimagine the iconic Faisal Masjid in any creative style you want, and compete for the best creation!
+            Download the 360° capture, reimagine Faisal Masjid in any creative style you want, and compete for the best creation!
           </p>
           
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -103,12 +103,12 @@ export default function Home() {
         </div>
 
         {/* Cinematic Viewer Frame - Shows latest image */}
-        <div style={{ position: 'relative', width: '92%', maxWidth: '1600px', height: '65vh', minHeight: '500px', marginTop: '6rem', borderRadius: '32px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(0, 112, 243, 0.15)', zIndex: 10, transform: 'perspective(1200px) rotateX(2deg)', transformOrigin: 'top' }}>
+        <div style={{ position: 'relative', width: '92%', maxWidth: '1600px', height: '65vh', minHeight: '500px', marginTop: '6rem', borderRadius: '32px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(255, 255, 255, 0.05)', zIndex: 10 }}>
           <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse at bottom, transparent 0%, rgba(0,0,0,0.5) 100%)' }} />
           {/* Ensure Viewer completely re-renders if heroImage changes */}
           <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} hfov={100} />
-          <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.5rem 1rem', borderRadius: '8px', color: '#fff', fontSize: '0.85rem', fontWeight: 600, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)' }}>
-            Now Viewing: {images.length > 0 ? images[0].title : 'Default 360'}
+          <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.6rem 1.25rem', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 500, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', letterSpacing: '0.02em' }}>
+            {images.length > 0 ? (images[0].caption ? `"${images[0].caption}" — by ${images[0].authorName}` : `By ${images[0].authorName}`) : 'Original Faisal Masjid'}
           </div>
         </div>
       </section>
@@ -159,7 +159,7 @@ export default function Home() {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', maxWidth: '600px', margin: '0 auto' }}>
           <div style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.05em', color: '#fff', opacity: 0.5 }}>REIMAGINED</div>
           <p style={{ fontSize: '0.95rem', letterSpacing: '0.02em', color: 'var(--accents-5)', lineHeight: '1.6' }}>
-            A global 360° image competition crafted by Google Developer Groups on Campus (GDGoC) at IIUI. We empower developers, artists, and creators to build the future of immersive web experiences.
+            A 360° image competition by Google Developer Groups on Campus (GDGoC) at IIUI.
           </p>
           <div style={{ marginTop: '2rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>
             © {new Date().getFullYear()} GDGoC IIUI. All rights reserved.

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 // Simple in-memory rate limiter
 const rateLimitMap = new Map();
 const RATE_LIMIT = 5; // Max 5 uploads per window
