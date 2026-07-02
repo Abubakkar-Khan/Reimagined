@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 
-export default function Viewer360({ imageUrl, pitch = 0, yaw = 0, hfov = 110, autoLoad = true, autoRotate = -2 }) {
+export default function Viewer360({ imageUrl, pitch = 0, yaw = 0, hfov = 120, autoLoad = true, autoRotate = -2 }) {
   const viewerRef = useRef(null);
   const containerRef = useRef(null);
 

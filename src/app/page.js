@@ -106,7 +106,7 @@ export default function Home() {
         <div style={{ position: 'relative', width: '92%', maxWidth: '1600px', height: '65vh', minHeight: '500px', marginTop: '6rem', borderRadius: '32px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(255, 255, 255, 0.05)', zIndex: 10 }}>
           <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse at bottom, transparent 0%, rgba(0,0,0,0.5) 100%)' }} />
           {/* Ensure Viewer completely re-renders if heroImage changes */}
-          <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} hfov={100} />
+          <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} />
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.6rem 1.25rem', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 500, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', letterSpacing: '0.02em' }}>
             {images.length > 0 ? (images[0].caption ? `"${images[0].caption}" — by ${images[0].authorName}` : `By ${images[0].authorName}`) : 'Original Faisal Masjid'}
           </div>
