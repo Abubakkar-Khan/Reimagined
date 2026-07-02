@@ -75,7 +75,9 @@ export default function Gallery({ images, setImages, loading }) {
               </div>
             </div>
             <div className="gallery-info">
-              <h4 style={{ fontSize: '1.2rem', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>{img.title}</h4>
+              {img.title && !img.title.startsWith('Entry-') && (
+                <h4 style={{ fontSize: '1.2rem', fontWeight: 600, letterSpacing: '-0.02em', marginBottom: '0.2rem' }}>{img.title}</h4>
+              )}
               <p style={{ fontSize: '0.85rem', color: 'var(--accents-5)', marginBottom: '1rem' }}>By {img.authorName}</p>
               {img.caption && <p className="caption">{img.caption}</p>}
               <div className="gallery-actions">
@@ -113,7 +115,9 @@ export default function Gallery({ images, setImages, loading }) {
               
               {/* Info Overlay */}
               <div className="modal-info-overlay">
-                <h3>{selectedImage.title}</h3>
+                {selectedImage.title && !selectedImage.title.startsWith('Entry-') && (
+                  <h3>{selectedImage.title}</h3>
+                )}
                 <p style={{ fontSize: '0.95rem', color: '#fff', marginBottom: '0.75rem', fontWeight: 500 }}>By {selectedImage.authorName}</p>
                 {selectedImage.detail && <p>{selectedImage.detail}</p>}
                 {selectedImage.prompt && <p className="prompt-text"><strong>Prompt:</strong> {selectedImage.prompt}</p>}
@@ -129,7 +133,7 @@ export default function Gallery({ images, setImages, loading }) {
                     className={`strip-thumb ${img.id === selectedImage.id ? 'active' : ''}`}
                     onClick={() => setSelectedImage(img)}
                     style={{ backgroundImage: `url(${getThumbnailUrl(img.url)})` }}
-                    title={img.title}
+                    title={img.title && !img.title.startsWith('Entry-') ? img.title : (img.caption || `By ${img.authorName}`)}
                   />
                 ))}
               </div>
