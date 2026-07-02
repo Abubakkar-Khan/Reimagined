@@ -13,7 +13,21 @@ export default function Home() {
       const res = await fetch('/api/images');
       if (res.ok) {
         const data = await res.json();
-        setImages(data);
+        
+        // Add original image as a default gallery entry at the very end
+        const originalEntry = {
+          id: 'original-faisal-masjid',
+          url: '/Street View 360.jpg',
+          title: 'Original Faisal Masjid',
+          authorName: 'GDGoC IIUI',
+          caption: 'The original 360° capture for the competition.',
+          prompt: '',
+          createdAt: new Date().toISOString(),
+          likesCount: 0,
+          hasLiked: false,
+        };
+        
+        setImages([...data, originalEntry]);
       }
     } catch (err) {
       console.error(err);
@@ -36,10 +50,9 @@ export default function Home() {
   return (
     <main style={{ overflowX: 'hidden' }}>
       {/* Floating Pill Navigation */}
-      <nav style={{ position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 100, background: 'rgba(10, 10, 10, 0.7)', backdropFilter: 'blur(16px)', padding: '0.5rem 1.5rem', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', gap: '3rem', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
+      <nav style={{ position: 'fixed', top: '1.5rem', left: '50%', transform: 'translateX(-50%)', zIndex: 100, background: 'rgba(10, 10, 10, 0.7)', backdropFilter: 'blur(16px)', padding: '0.75rem 2rem', borderRadius: '99px', border: '1px solid rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', gap: '3rem', boxShadow: '0 8px 32px rgba(0,0,0,0.4)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <img src="/GDGoC%20IIUI%20Logo.png" alt="GDGoC IIUI" style={{ height: '32px', objectFit: 'contain' }} />
-          <div style={{ fontSize: '1.1rem', fontWeight: 800, letterSpacing: '-0.05em', color: '#fff' }}>REIMAGINED</div>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.05em', color: '#fff' }}>REIMAGINED</div>
         </div>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <a href="#instructions" style={{ fontWeight: 500, color: 'var(--accents-5)', fontSize: '0.95rem', transition: 'color 0.2s' }} onMouseOver={e => e.target.style.color='#fff'} onMouseOut={e => e.target.style.color='var(--accents-5)'}>Rules</a>
@@ -57,6 +70,13 @@ export default function Home() {
 
         {/* Hero Text */}
         <div style={{ textAlign: 'center', zIndex: 10, maxWidth: '900px', padding: '0 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem' }}>
+            <img src="/GDGoC%20IIUI%20Logo.png" alt="GDGoC IIUI Logo" style={{ height: '56px', objectFit: 'contain', filter: 'drop-shadow(0 0 12px rgba(255,255,255,0.1))' }} />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 1.25rem', borderRadius: '99px', background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', color: 'var(--accents-5)', fontSize: '0.85rem', fontWeight: 600, backdropFilter: 'blur(10px)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+              GDGoC IIUI presents Reimagined
+            </div>
+          </div>
+          
           <h1 style={{ fontSize: 'clamp(3.5rem, 8vw, 6.5rem)', fontWeight: 800, lineHeight: '1', letterSpacing: '-0.05em', marginBottom: '1.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 4px 30px rgba(0,0,0,0.4))' }}>
             Reimagine<br/>Faisal Masjid.
           </h1>
@@ -135,9 +155,15 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '4rem 0', textAlign: 'center', background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-          <p style={{ fontSize: '1rem', letterSpacing: '0.02em', color: 'var(--accents-5)' }}>GDGoC presents Reimagined</p>
+      <footer style={{ padding: '6rem 2rem 4rem', textAlign: 'center', background: '#050505', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', maxWidth: '600px', margin: '0 auto' }}>
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.05em', color: '#fff', opacity: 0.5 }}>REIMAGINED</div>
+          <p style={{ fontSize: '0.95rem', letterSpacing: '0.02em', color: 'var(--accents-5)', lineHeight: '1.6' }}>
+            A global 360° image competition crafted by Google Developer Groups on Campus (GDGoC) at IIUI. We empower developers, artists, and creators to build the future of immersive web experiences.
+          </p>
+          <div style={{ marginTop: '2rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.3)' }}>
+            © {new Date().getFullYear()} GDGoC IIUI. All rights reserved.
+          </div>
         </div>
       </footer>
     </main>

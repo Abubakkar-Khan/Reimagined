@@ -25,23 +25,29 @@ export default function Gallery({ images, setImages, loading }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const toggleLike = async (id, currentLiked) => {
+    // Optimistic UI Update - instant interaction
+    const previousImages = [...images];
+    setImages(images.map(img => {
+      if (img.id === id) {
+        return {
+          ...img,
+          hasLiked: !currentLiked,
+          likesCount: img.likesCount + (!currentLiked ? 1 : -1)
+        };
+      }
+      return img;
+    }));
+
     try {
       const res = await fetch(`/api/images/${id}/like`, { method: 'POST' });
-      if (res.ok) {
-        const { liked } = await res.json();
-        setImages(images.map(img => {
-          if (img.id === id) {
-            return {
-              ...img,
-              hasLiked: liked,
-              likesCount: img.likesCount + (liked ? 1 : -1)
-            };
-          }
-          return img;
-        }));
+      if (!res.ok) {
+        // Revert if the backend fails
+        setImages(previousImages);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Like failed:', err);
+      // Revert on error
+      setImages(previousImages);
     }
   };
 
@@ -76,7 +82,7 @@ export default function Gallery({ images, setImages, loading }) {
                   className={`btn-like ${img.hasLiked ? 'liked' : ''}`}
                   onClick={() => toggleLike(img.id, img.hasLiked)}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill={img.hasLiked ? "var(--geist-success)" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={img.hasLiked ? "#fff" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                   </svg>
                   <span>{img.likesCount}</span>
@@ -107,7 +113,7 @@ export default function Gallery({ images, setImages, loading }) {
               {/* Info Overlay */}
               <div className="modal-info-overlay">
                 <h3>{selectedImage.title}</h3>
-                <p style={{ fontSize: '0.95rem', color: 'var(--geist-success)', marginBottom: '0.75rem', fontWeight: 500 }}>By {selectedImage.authorName}</p>
+                <p style={{ fontSize: '0.95rem', color: '#fff', marginBottom: '0.75rem', fontWeight: 500 }}>By {selectedImage.authorName}</p>
                 {selectedImage.detail && <p>{selectedImage.detail}</p>}
                 {selectedImage.prompt && <p className="prompt-text"><strong>Prompt:</strong> {selectedImage.prompt}</p>}
               </div>
@@ -222,10 +228,10 @@ export default function Gallery({ images, setImages, loading }) {
           transform: scale(1.05);
         }
         .btn-like.liked {
-          color: var(--geist-success);
+          color: #fff;
         }
         .btn-like.liked:hover {
-          color: #4ade80;
+          color: #ddd;
         }
         .btn-download {
           display: flex;
@@ -361,9 +367,9 @@ export default function Gallery({ images, setImages, loading }) {
         }
         .strip-thumb.active {
           opacity: 1;
-          border-color: var(--geist-success);
+          border-color: #fff;
           transform: scale(1.05);
-          box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.3);
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
         }
       `}</style>
     </div>

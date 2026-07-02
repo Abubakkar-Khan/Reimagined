@@ -38,7 +38,6 @@ export async function GET() {
       authorName: img.authorName,
       caption: img.caption,
       prompt: img.prompt,
-      detail: img.detail,
       createdAt: img.createdAt,
       likesCount: img._count.likes,
       hasLiked: userLikes.includes(img.id),
@@ -93,14 +92,14 @@ export async function POST(req) {
     }
 
     const body = await req.json();
-    const { url, title, authorName, caption, prompt, detail } = body;
+    const { url, title, authorName, caption, prompt } = body;
 
     if (!url || !title) {
       return NextResponse.json({ error: 'URL and title are required' }, { status: 400 });
     }
 
     const image = await prisma.image.create({
-      data: { url, title, authorName: authorName || 'Anonymous', caption, prompt, detail },
+      data: { url, title, authorName: authorName || 'Anonymous', caption, prompt },
     });
 
     return NextResponse.json(image, { status: 201 });
