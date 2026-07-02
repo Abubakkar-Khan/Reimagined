@@ -4,7 +4,10 @@ import { PrismaPg } from '@prisma/adapter-pg';
 const globalForPrisma = global;
 
 function createPrismaClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  // During Vercel build step, environment variables might not be available.
+  // We provide a dummy string to prevent PrismaPg from crashing during static analysis.
+  const connectionString = process.env.DATABASE_URL || 'postgresql://dummy:dummy@localhost:5432/dummy';
+  const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter });
 }
 
