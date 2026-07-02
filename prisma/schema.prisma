@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  title     String
+  authorName String   @default("Anonymous")
+  caption   String?
+  prompt    String?
+  detail    String?
+  createdAt DateTime @default(now())
+  likes     Like[]
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  sessionId String
+  imageId   String
+  image     Image    @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([sessionId, imageId])
+}
