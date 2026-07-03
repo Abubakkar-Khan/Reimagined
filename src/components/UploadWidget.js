@@ -46,6 +46,23 @@ export default function UploadWidget({ onUploadSuccess }) {
               multiple: false,
               clientAllowedFormats: ['jpg', 'png', 'jpeg'],
               maxImageFileSize: 25000000,
+              styles: {
+                palette: {
+                  window: "#050505",
+                  sourceBg: "#111111",
+                  windowBorder: "#333333",
+                  tabIcon: "#ffffff",
+                  inactiveTabIcon: "#888888",
+                  menuIcons: "#ffffff",
+                  link: "#ffffff",
+                  action: "#ffffff",
+                  inProgress: "#0078FF",
+                  complete: "#20B832",
+                  error: "#ff0000",
+                  textDark: "#000000",
+                  textLight: "#ffffff"
+                }
+              }
             },
             (error, result) => {
               if (!error && result && result.event === 'success') {
@@ -113,7 +130,6 @@ export default function UploadWidget({ onUploadSuccess }) {
   return (
     <>
       <button 
-        className="btn-primary"
         onClick={() => {
           if (widget) {
             widget.open();
@@ -122,7 +138,22 @@ export default function UploadWidget({ onUploadSuccess }) {
           }
         }}
         disabled={loading}
-        style={{ padding: '0.85rem 2.5rem', fontSize: '1.1rem', cursor: loading ? 'not-allowed' : 'pointer' }}
+        style={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          padding: '0.85rem 2.5rem', 
+          fontSize: '1.1rem', 
+          fontWeight: 600,
+          color: '#fff',
+          background: '#0070f3',
+          border: 'none',
+          borderRadius: '12px',
+          boxShadow: '0 4px 14px rgba(0, 112, 243, 0.4)',
+          transition: 'all 0.2s',
+          cursor: loading ? 'not-allowed' : 'pointer'
+        }}
+        onMouseOver={e => { if(!loading) { e.currentTarget.style.background = '#0060df'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 112, 243, 0.6)'; } }}
+        onMouseOut={e => { if(!loading) { e.currentTarget.style.background = '#0070f3'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 112, 243, 0.4)'; } }}
       >
         Upload 360° Image
       </button>

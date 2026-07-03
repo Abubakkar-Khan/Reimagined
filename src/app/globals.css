@@ -10,6 +10,29 @@
   --border: var(--accents-2);
   --border-hover: var(--accents-3);
   --glass-bg: rgba(17, 17, 17, 0.7);
+  
+  /* Responsive Variables */
+  --hero-pt: 10rem;
+  --nav-gap: 3rem;
+  --nav-px: 2rem;
+  --viewer-height: 65vh;
+  --viewer-min-height: 500px;
+  --instructions-p: 4rem;
+  --section-pt: 6rem;
+  --btn-gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --hero-pt: 7rem;
+    --nav-gap: 1rem;
+    --nav-px: 1rem;
+    --viewer-height: 50vh;
+    --viewer-min-height: 350px;
+    --instructions-p: 2rem;
+    --section-pt: 4rem;
+    --btn-gap: 1rem;
+  }
 }
 
 * {
@@ -40,7 +63,7 @@ button {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--nav-px);
 }
 
 /* Typography */

@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Reimagined | 360° Image Gallery",
-  description: "A 360° image competition gallery and viewer.",
+  description: "A 360° AI creativity event gallery and viewer.",
 };
 
 export default function RootLayout({ children }) {
