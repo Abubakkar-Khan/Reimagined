@@ -60,10 +60,12 @@ export default function Gallery({ images, setImages, loading }) {
     return <div style={{ textAlign: 'center', padding: '5rem 3rem', color: 'var(--accents-5)', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '24px' }}>No entries uploaded yet. Be the first to reimagine the world!</div>;
   }
 
+  const sortedImages = [...images].sort((a, b) => b.likesCount - a.likesCount);
+
   return (
     <div>
       <div className="gallery-grid">
-        {images.map(img => (
+        {sortedImages.map(img => (
           <div key={img.id} className="gallery-card glass-panel">
             <div 
               className="gallery-thumb" 
@@ -127,7 +129,7 @@ export default function Gallery({ images, setImages, loading }) {
             {/* Thumbnail Strip */}
             <div className="modal-strip">
               <div className="modal-strip-inner">
-                {images.map(img => (
+                {sortedImages.map(img => (
                   <div 
                     key={img.id} 
                     className={`strip-thumb ${img.id === selectedImage.id ? 'active' : ''}`}
@@ -326,6 +328,22 @@ export default function Gallery({ images, setImages, loading }) {
           padding: 0.75rem;
           border-radius: 8px;
           border: 1px solid rgba(255,255,255,0.05);
+          max-height: 150px;
+          overflow-y: auto;
+          pointer-events: auto;
+        }
+        .prompt-text::-webkit-scrollbar { width: 4px; }
+        .prompt-text::-webkit-scrollbar-track { background: transparent; }
+        .prompt-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+        @media (max-width: 768px) {
+          .prompt-text {
+            display: none;
+          }
+          .modal-info-overlay {
+            top: 1rem; left: 1rem; right: 1rem;
+            max-width: none;
+          }
         }
         
         /* Modal Thumbnail Strip */

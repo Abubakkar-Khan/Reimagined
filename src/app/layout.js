@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -17,6 +19,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         {children}
+        <Analytics />
         <Script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.7/build/pannellum.js" strategy="beforeInteractive" />
         <Script src="https://upload-widget.cloudinary.com/global/all.js" strategy="lazyOnload" />
       </body>

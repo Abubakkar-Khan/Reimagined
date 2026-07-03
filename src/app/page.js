@@ -44,8 +44,11 @@ export default function Home() {
     fetchImages();
   };
 
-  // Use the most recently uploaded image as the hero, fallback to default
-  const heroImage = images.length > 0 ? images[0].url : "/Street View 360.jpg";
+  // Use the image with the most likes as the hero, fallback to default
+  const topImage = images.length > 0 
+    ? [...images].sort((a, b) => b.likesCount - a.likesCount)[0]
+    : null;
+  const heroImage = topImage ? topImage.url : "/Street View 360.jpg";
 
   return (
     <main style={{ overflowX: 'hidden' }}>
@@ -100,13 +103,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Cinematic Viewer Frame - Shows latest image */}
+        {/* Cinematic Viewer Frame - Shows top image */}
         <div style={{ position: 'relative', width: '92%', maxWidth: '1600px', height: 'var(--viewer-height)', minHeight: 'var(--viewer-min-height)', marginTop: '6rem', borderRadius: '32px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 60px rgba(255, 255, 255, 0.05)', zIndex: 10 }}>
           <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none', background: 'radial-gradient(ellipse at bottom, transparent 0%, rgba(0,0,0,0.5) 100%)' }} />
           {/* Ensure Viewer completely re-renders if heroImage changes */}
           <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} />
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.6rem 1.25rem', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 500, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', letterSpacing: '0.02em' }}>
-            {images.length > 0 ? (images[0].caption ? `"${images[0].caption}" — by ${images[0].authorName}` : `By ${images[0].authorName}`) : 'Original Faisal Masjid'}
+            {topImage ? (topImage.caption ? `"${topImage.caption}" — by ${topImage.authorName}` : `By ${topImage.authorName}`) : 'Original Faisal Masjid'}
           </div>
         </div>
       </section>
