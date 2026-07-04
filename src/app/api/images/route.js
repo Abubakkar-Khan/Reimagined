@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // Simple in-memory rate limiter
 const rateLimitMap = new Map();
-const RATE_LIMIT = 5; // Max 5 uploads per window
+const RATE_LIMIT = 10; // Max 10 uploads per window
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
 
 export async function GET() {
