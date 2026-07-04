@@ -22,7 +22,7 @@ export default function Home() {
           authorName: 'GDGoC IIUI',
           caption: 'The original scene used for Reimagined.',
           prompt: '',
-          createdAt: new Date().toISOString(),
+          createdAt: new Date(0).toISOString(),
           likesCount: 0,
           hasLiked: false,
         };

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Viewer360 from './Viewer360';
 
 const getThumbnailUrl = (url) => {
@@ -25,6 +25,39 @@ const getDownloadUrl = (url) => {
 export default function Gallery({ images, setImages, loading }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleCount, setVisibleCount] = useState(9);
+  const [copiedId, setCopiedId] = useState(null);
+
+  useEffect(() => {
+    // Read ?image=id from URL on load
+    if (typeof window !== 'undefined' && images.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const imageId = params.get('image');
+      if (imageId) {
+        const found = images.find(img => img.id === imageId);
+        if (found) {
+          setSelectedImage(found);
+          // Scroll to gallery section if requested
+          setTimeout(() => {
+            const gallerySection = document.getElementById('gallery');
+            if (gallerySection) gallerySection.scrollIntoView({ behavior: 'smooth' });
+          }, 300);
+        }
+      }
+    }
+  }, [images]);
+
+  const handleShare = (id, authorName) => {
+    if (typeof navigator !== 'undefined') {
+      const shareUrl = `${window.location.origin}${window.location.pathname}?image=${id}`;
+      const shareText = `Check out this 360° reimagination of IIUI by ${authorName}!\n${shareUrl}`;
+      navigator.clipboard.writeText(shareText)
+        .then(() => {
+          setCopiedId(id);
+          setTimeout(() => setCopiedId(null), 2000);
+        })
+        .catch(() => console.error('Failed to copy link.'));
+    }
+  };
 
   const toggleLike = async (id, currentLiked) => {
     // Optimistic UI Update - instant interaction
@@ -61,7 +94,7 @@ export default function Gallery({ images, setImages, loading }) {
     return <div style={{ textAlign: 'center', padding: '5rem 3rem', color: 'var(--accents-5)', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '24px' }}>No entries uploaded yet. Be the first to reimagine the world!</div>;
   }
 
-  const sortedImages = [...images].sort((a, b) => b.likesCount - a.likesCount);
+  const sortedImages = [...images].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   const displayedImages = sortedImages.slice(0, visibleCount);
 
   return (
@@ -94,14 +127,37 @@ export default function Gallery({ images, setImages, loading }) {
                   </svg>
                   <span>{img.likesCount}</span>
                 </button>
-                <a href={getDownloadUrl(img.url)} target="_blank" rel="noopener noreferrer" download className="btn-download" title="Download High-Res Image">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.5rem' }}>
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                  Download
-                </a>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <a href={getDownloadUrl(img.url)} target="_blank" rel="noopener noreferrer" download className="btn-action" title="Download High-Res Image">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.35rem' }}>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download
+                  </a>
+                  <button className={`btn-action ${copiedId === img.id ? 'copied' : ''}`} onClick={() => handleShare(img.id, img.authorName)} title="Share Link">
+                    {copiedId === img.id ? (
+                      <>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.35rem' }}>
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span style={{ color: '#4ade80' }}>Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.35rem' }}>
+                          <circle cx="18" cy="5" r="3"></circle>
+                          <circle cx="6" cy="12" r="3"></circle>
+                          <circle cx="18" cy="19" r="3"></circle>
+                          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                        Share
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -122,7 +178,15 @@ export default function Gallery({ images, setImages, loading }) {
       {selectedImage && (
         <div className="modal-overlay" onClick={() => setSelectedImage(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelectedImage(null)}>✕</button>
+            <button className="modal-close" onClick={() => {
+              setSelectedImage(null);
+              // Clean up URL if they close modal
+              if (typeof window !== 'undefined') {
+                const url = new URL(window.location);
+                url.searchParams.delete('image');
+                window.history.pushState({}, '', url);
+              }
+            }}>✕</button>
             
             <div className="modal-viewer">
               {/* Ensure Viewer360 re-renders properly on selectedImage change */}
@@ -270,23 +334,28 @@ export default function Gallery({ images, setImages, loading }) {
         .btn-like.liked:hover {
           color: #ddd;
         }
-        .btn-download {
+        .btn-action {
           display: flex;
           align-items: center;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
           font-weight: 600;
           color: var(--accents-5);
           text-decoration: none;
-          transition: color 0.2s, transform 0.2s;
+          transition: all 0.2s;
           background: rgba(255,255,255,0.05);
-          padding: 0.4rem 0.8rem;
+          padding: 0.4rem 0.75rem;
           border-radius: 8px;
           border: 1px solid rgba(255,255,255,0.05);
+          cursor: pointer;
         }
-        .btn-download:hover {
+        .btn-action:hover {
           color: #fff;
           background: rgba(255,255,255,0.1);
-          transform: translateY(-2px);
+          border-color: rgba(255,255,255,0.15);
+        }
+        .btn-action.copied {
+          border-color: rgba(74, 222, 128, 0.4);
+          background: rgba(74, 222, 128, 0.1);
         }
         
         /* Modal Styles */
