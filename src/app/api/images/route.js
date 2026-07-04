@@ -38,6 +38,7 @@ export async function GET() {
       url: img.url,
       title: img.title,
       authorName: img.authorName,
+      slug: img.slug,
       caption: img.caption,
       prompt: img.prompt,
       createdAt: img.createdAt,
@@ -104,8 +105,13 @@ export async function POST(req) {
       return NextResponse.json({ error: 'Invalid email address syntax' }, { status: 400 });
     }
 
+    let baseSlug = `${title}-${authorName || 'anonymous'}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    if (!baseSlug) baseSlug = 'reimagined-entry';
+    const randomSuffix = Math.random().toString(36).substring(2, 6);
+    const slug = `${baseSlug}-${randomSuffix}`;
+
     const image = await prisma.image.create({
-      data: { url, title, authorName: authorName || 'Anonymous', email, caption, prompt },
+      data: { url, title, authorName: authorName || 'Anonymous', email, slug, caption, prompt },
     });
 
     return NextResponse.json(image, { status: 201 });

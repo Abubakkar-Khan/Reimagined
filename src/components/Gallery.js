@@ -33,7 +33,7 @@ export default function Gallery({ images, setImages, loading }) {
       const params = new URLSearchParams(window.location.search);
       const imageId = params.get('image');
       if (imageId) {
-        const found = images.find(img => img.id === imageId);
+        const found = images.find(img => img.id === imageId || img.slug === imageId);
         if (found) {
           setSelectedImage(found);
           // Scroll to gallery section if requested
@@ -46,9 +46,10 @@ export default function Gallery({ images, setImages, loading }) {
     }
   }, [images]);
 
-  const handleShare = (id, authorName) => {
+  const handleShare = (id, authorName, slug) => {
     if (typeof navigator !== 'undefined') {
-      const shareUrl = `${window.location.origin}${window.location.pathname}?image=${id}`;
+      const shareIdentifier = slug || id;
+      const shareUrl = `${window.location.origin}${window.location.pathname}?image=${shareIdentifier}`;
       const shareText = `Check out this 360° reimagination of IIUI by ${authorName}!\n${shareUrl}`;
       navigator.clipboard.writeText(shareText)
         .then(() => {
@@ -136,7 +137,7 @@ export default function Gallery({ images, setImages, loading }) {
                     </svg>
                     Download
                   </a>
-                  <button className={`btn-action ${copiedId === img.id ? 'copied' : ''}`} onClick={() => handleShare(img.id, img.authorName)} title="Share Link">
+                  <button className={`btn-action ${copiedId === img.id ? 'copied' : ''}`} onClick={() => handleShare(img.id, img.authorName, img.slug)} title="Share Link">
                     {copiedId === img.id ? (
                       <>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.35rem' }}>

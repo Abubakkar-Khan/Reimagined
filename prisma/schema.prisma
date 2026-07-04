@@ -12,6 +12,7 @@ model Image {
   title     String
   authorName String   @default("Anonymous")
   email      String?
+  slug       String?  @unique
   caption    String?
   prompt    String?
   detail    String?
