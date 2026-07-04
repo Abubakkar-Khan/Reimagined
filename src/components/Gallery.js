@@ -460,8 +460,23 @@ export default function Gallery({ images, setImages, loading }) {
             display: none;
           }
           .modal-info-overlay {
-            top: auto; bottom: 1rem; left: 1rem; right: 1rem;
-            max-width: none;
+            top: auto; bottom: 1rem; left: 1rem; right: auto;
+            max-width: 75%;
+            padding: 1rem;
+          }
+          .modal-info-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+          }
+          .modal-info-overlay p {
+            font-size: 0.85rem !important;
+            margin-bottom: 0.5rem;
+          }
+          .modal-info-overlay .btn-action {
+            padding: 0.35rem;
+          }
+          .modal-info-overlay .btn-action svg {
+            width: 16px; height: 16px;
           }
         }
         
