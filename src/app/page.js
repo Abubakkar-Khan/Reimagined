@@ -16,9 +16,9 @@ export default function Home() {
         
         // Add original image as a default gallery entry at the very end
         const originalEntry = {
-          id: 'original-faisal-masjid',
-          url: '/Street View 360.jpg',
-          title: 'Original Faisal Masjid',
+          id: 'original-iiui-image',
+          url: '/IIUI_360.png',
+          title: 'Original IIUI Image',
           authorName: 'GDGoC IIUI',
           caption: 'The original scene used for Reimagined.',
           prompt: '',
@@ -48,7 +48,7 @@ export default function Home() {
   const topImage = images.length > 0 
     ? [...images].sort((a, b) => b.likesCount - a.likesCount)[0]
     : null;
-  const heroImage = topImage ? topImage.url : "/Street View 360.jpg";
+  const heroImage = topImage ? topImage.url : "/IIUI_360.png";
 
   return (
     <main style={{ overflowX: 'hidden' }}>
@@ -77,17 +77,16 @@ export default function Home() {
               GDGoC IIUI presents Reimagined
             </div>
           </div>
-          
           <h1 style={{ fontSize: 'clamp(3.5rem, 8vw, 6.5rem)', fontWeight: 800, lineHeight: '1', letterSpacing: '-0.05em', marginBottom: '1.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', filter: 'drop-shadow(0 4px 30px rgba(0,0,0,0.4))' }}>
-            Reimagine<br/>Faisal Masjid.
+            Reimagine<br/>IIUI
           </h1>
           
           <p style={{ color: 'var(--accents-5)', fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', marginBottom: '3.5rem', maxWidth: '650px', lineHeight: '1.6' }}>
-            Download the 360° capture, reimagine it using AI, and share your creation. Outstanding submissions will be featured!
+            Download the 360° capture of IIUI, reimagine it using AI, and share your creation. Outstanding submissions will be featured!
           </p>
           
           <div style={{ display: 'flex', gap: 'var(--btn-gap)', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="/Street%20View%20360.jpg" download="Faisal_Masjid_Original_360.jpg" style={{ display: 'inline-flex', alignItems: 'center', padding: '0.85rem 2.5rem', fontSize: '1.1rem', fontWeight: 600, color: '#000', background: '#fff', borderRadius: '12px', transition: 'all 0.2s', boxShadow: '0 4px 14px rgba(255,255,255,0.4)' }}
+            <a href="/IIUI_360.png" download="IIUI_Original_360.png" style={{ display: 'inline-flex', alignItems: 'center', padding: '0.85rem 2.5rem', fontSize: '1.1rem', fontWeight: 600, color: '#000', background: '#fff', borderRadius: '12px', transition: 'all 0.2s', boxShadow: '0 4px 14px rgba(255,255,255,0.4)' }}
                onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'}
                onMouseOut={e => e.currentTarget.style.transform = 'translateY(0)'}>
               Download Original
@@ -109,7 +108,7 @@ export default function Home() {
           {/* Ensure Viewer completely re-renders if heroImage changes */}
           <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} />
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.6rem 1.25rem', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 500, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', letterSpacing: '0.02em' }}>
-            {topImage ? (topImage.caption ? `"${topImage.caption}" — by ${topImage.authorName}` : `By ${topImage.authorName}`) : 'Original Faisal Masjid'}
+            {topImage ? (topImage.caption ? `"${topImage.caption}" — by ${topImage.authorName}` : `By ${topImage.authorName}`) : 'Original IIUI Image'}
           </div>
         </div>
       </section>
@@ -125,12 +124,12 @@ export default function Home() {
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 1.5rem' }}>1</div>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Download Original</h3>
-              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>Download the original base 360° image of Faisal Masjid provided above to use as your canvas.</p>
+              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>Download the original base 360° image of IIUI provided above to use as your canvas.</p>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 1.5rem' }}>2</div>
               <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Use AI to Reimagine</h3>
-              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>Use AI tools or editing software to completely reimagine the Masjid in a new, unique style!</p>
+              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>Use AI tools or editing software to completely reimagine IIUI in a new, unique style</p>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 1.5rem' }}>3</div>
