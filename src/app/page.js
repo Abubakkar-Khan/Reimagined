@@ -44,11 +44,8 @@ export default function Home() {
     fetchImages();
   };
 
-  // Use the image with the most likes as the hero, fallback to default
-  const topImage = images.length > 0 
-    ? [...images].sort((a, b) => b.likesCount - a.likesCount)[0]
-    : null;
-  const heroImage = topImage ? topImage.url : "/IIUI_360.png";
+  // Default to showing the original image in the hero section
+  const heroImage = "/IIUI_360.png";
 
   return (
     <main style={{ overflowX: 'hidden' }}>
@@ -108,7 +105,7 @@ export default function Home() {
           {/* Ensure Viewer completely re-renders if heroImage changes */}
           <Viewer360 key={heroImage} imageUrl={heroImage} autoRotate={-1.5} />
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', zIndex: 10, background: 'rgba(0,0,0,0.6)', padding: '0.6rem 1.25rem', borderRadius: '8px', color: '#fff', fontSize: '0.95rem', fontWeight: 500, border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(4px)', letterSpacing: '0.02em' }}>
-            {topImage ? (topImage.caption ? `"${topImage.caption}" — by ${topImage.authorName}` : `By ${topImage.authorName}`) : 'Original IIUI Image'}
+            Original IIUI Image
           </div>
         </div>
       </section>
