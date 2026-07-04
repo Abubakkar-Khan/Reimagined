@@ -24,6 +24,7 @@ const getDownloadUrl = (url) => {
 
 export default function Gallery({ images, setImages, loading }) {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   const toggleLike = async (id, currentLiked) => {
     // Optimistic UI Update - instant interaction
@@ -61,11 +62,12 @@ export default function Gallery({ images, setImages, loading }) {
   }
 
   const sortedImages = [...images].sort((a, b) => b.likesCount - a.likesCount);
+  const displayedImages = sortedImages.slice(0, visibleCount);
 
   return (
     <div>
       <div className="gallery-grid">
-        {sortedImages.map(img => (
+        {displayedImages.map(img => (
           <div key={img.id} className="gallery-card glass-panel">
             <div 
               className="gallery-thumb" 
@@ -106,6 +108,17 @@ export default function Gallery({ images, setImages, loading }) {
         ))}
       </div>
 
+      {visibleCount < sortedImages.length && (
+        <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <button 
+            onClick={() => setVisibleCount(prev => prev + 9)}
+            className="btn-load-more"
+          >
+            Load More
+          </button>
+        </div>
+      )}
+
       {selectedImage && (
         <div className="modal-overlay" onClick={() => setSelectedImage(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -145,6 +158,23 @@ export default function Gallery({ images, setImages, loading }) {
       )}
 
       <style jsx>{`
+        .btn-load-more {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          color: #fff;
+          padding: 0.85rem 2.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          backdrop-filter: blur(10px);
+        }
+        .btn-load-more:hover {
+          background: rgba(255,255,255,0.1);
+          border-color: rgba(255,255,255,0.2);
+          transform: translateY(-2px);
+        }
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
