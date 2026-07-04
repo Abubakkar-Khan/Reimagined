@@ -195,11 +195,30 @@ export default function Gallery({ images, setImages, loading }) {
               
               {/* Info Overlay */}
               <div className="modal-info-overlay">
-                {selectedImage.title && !selectedImage.title.startsWith('Entry-') && (
-                  <h3>{selectedImage.title}</h3>
-                )}
-                <p style={{ fontSize: '0.95rem', color: '#fff', marginBottom: '0.75rem', fontWeight: 500 }}>By {selectedImage.authorName}</p>
-                {selectedImage.detail && <p>{selectedImage.detail}</p>}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    {selectedImage.title && !selectedImage.title.startsWith('Entry-') && (
+                      <h3>{selectedImage.title}</h3>
+                    )}
+                    <p style={{ fontSize: '0.95rem', color: '#fff', marginBottom: '0.75rem', fontWeight: 500 }}>By {selectedImage.authorName}</p>
+                  </div>
+                  <button className={`btn-action ${copiedId === selectedImage.id ? 'copied' : ''}`} onClick={(e) => { e.stopPropagation(); handleShare(selectedImage.id, selectedImage.authorName, selectedImage.slug); }} title="Share Link" style={{ padding: '0.5rem', pointerEvents: 'auto' }}>
+                    {copiedId === selectedImage.id ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                      </svg>
+                    )}
+                  </button>
+                </div>
+                {selectedImage.detail && <p style={{ pointerEvents: 'auto' }}>{selectedImage.detail}</p>}
                 {selectedImage.prompt && <p className="prompt-text"><strong>Prompt:</strong> {selectedImage.prompt}</p>}
               </div>
             </div>
@@ -441,7 +460,7 @@ export default function Gallery({ images, setImages, loading }) {
             display: none;
           }
           .modal-info-overlay {
-            top: 1rem; left: 1rem; right: 1rem;
+            top: auto; bottom: 1rem; left: 1rem; right: 1rem;
             max-width: none;
           }
         }
