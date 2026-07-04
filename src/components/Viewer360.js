@@ -15,6 +15,8 @@ export default function Viewer360({ imageUrl, pitch = 0, yaw = 0, hfov = 120, au
           pitch: pitch,
           yaw: yaw,
           hfov: hfov,
+          minHfov: 30,
+          maxHfov: 150,
           autoRotate: autoRotate,
           compass: false,
           showZoomCtrl: true,
