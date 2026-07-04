@@ -11,7 +11,8 @@ model Image {
   url       String
   title     String
   authorName String   @default("Anonymous")
-  caption   String?
+  email      String?
+  caption    String?
   prompt    String?
   detail    String?
   createdAt DateTime @default(now())

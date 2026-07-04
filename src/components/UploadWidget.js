@@ -12,6 +12,7 @@ export default function UploadWidget({ onUploadSuccess }) {
   const [formData, setFormData] = useState({
     title: '',
     authorName: '',
+    email: '',
     caption: '',
     prompt: '',
     detail: ''
@@ -106,6 +107,7 @@ export default function UploadWidget({ onUploadSuccess }) {
           url: uploadedUrl,
           title: formData.title,
           authorName: formData.authorName,
+          email: formData.email,
           caption: formData.caption,
           prompt: formData.prompt,
           detail: formData.detail
@@ -171,6 +173,18 @@ export default function UploadWidget({ onUploadSuccess }) {
                   value={formData.authorName}
                   onChange={(e) => setFormData({...formData, authorName: e.target.value})}
                   required
+                />
+              </div>
+              <div className="form-group">
+                <label>Email Address</label>
+                <input 
+                  type="email" 
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                  title="Please enter a valid email address"
                 />
               </div>
               <div className="form-group">

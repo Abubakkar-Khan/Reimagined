@@ -94,14 +94,18 @@ export async function POST(req) {
     }
 
     const body = await req.json();
-    const { url, title, authorName, caption, prompt } = body;
+    const { url, title, authorName, email, caption, prompt } = body;
 
     if (!url || !title) {
       return NextResponse.json({ error: 'URL and title are required' }, { status: 400 });
     }
 
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json({ error: 'Invalid email address syntax' }, { status: 400 });
+    }
+
     const image = await prisma.image.create({
-      data: { url, title, authorName: authorName || 'Anonymous', caption, prompt },
+      data: { url, title, authorName: authorName || 'Anonymous', email, caption, prompt },
     });
 
     return NextResponse.json(image, { status: 201 });
