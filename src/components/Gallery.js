@@ -95,7 +95,7 @@ export default function Gallery({ images, setImages, loading }) {
     return <div style={{ textAlign: 'center', padding: '5rem 3rem', color: 'var(--accents-5)', background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', borderRadius: '24px' }}>No entries uploaded yet. Be the first to reimagine the world!</div>;
   }
 
-  const sortedImages = [...images].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const sortedImages = images;
   const displayedImages = sortedImages.slice(0, visibleCount);
 
   return (

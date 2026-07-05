@@ -33,18 +33,35 @@ export async function GET() {
       userLikes = likes.map((l) => l.imageId);
     }
 
-    const formattedImages = images.map((img) => ({
-      id: img.id,
-      url: img.url,
-      title: img.title,
-      authorName: img.authorName,
-      slug: img.slug,
-      caption: img.caption,
-      prompt: img.prompt,
-      createdAt: img.createdAt,
-      likesCount: img._count.likes,
-      hasLiked: userLikes.includes(img.id),
-    }));
+    const now = Date.now();
+
+    const formattedImages = images.map((img) => {
+      const ageInMs = now - new Date(img.createdAt).getTime();
+      const ageInDays = ageInMs / (1000 * 60 * 60 * 24);
+      const isRecentHour = ageInMs < 1000 * 60 * 60;
+      const hybridScore = (img._count.likes + 1) / (ageInDays + 1);
+
+      return {
+        id: img.id,
+        url: img.url,
+        title: img.title,
+        authorName: img.authorName,
+        slug: img.slug,
+        caption: img.caption,
+        prompt: img.prompt,
+        createdAt: img.createdAt,
+        likesCount: img._count.likes,
+        hasLiked: userLikes.includes(img.id),
+        hybridScore,
+        isRecentHour,
+      };
+    });
+
+    formattedImages.sort((a, b) => {
+      if (a.isRecentHour && !b.isRecentHour) return -1;
+      if (!a.isRecentHour && b.isRecentHour) return 1;
+      return b.hybridScore - a.hybridScore;
+    });
 
     // Generate a session ID if one doesn't exist
     const response = NextResponse.json(formattedImages);
