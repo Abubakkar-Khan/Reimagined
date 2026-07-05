@@ -130,8 +130,8 @@ export default function Home() {
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 1.5rem' }}>3</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Upload to Share</h3>
-              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>Upload your creation and enter your real Name (this exact name will be used on your certificate).</p>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#fff' }}>Submissions Closed</h3>
+              <p style={{ color: 'var(--accents-5)', lineHeight: '1.6' }}>The submission period has ended. Thank you to everyone who participated!</p>
             </div>
           </div>
         </div>
