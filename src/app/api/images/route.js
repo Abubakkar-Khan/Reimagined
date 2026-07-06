@@ -38,7 +38,7 @@ export async function GET() {
     const formattedImages = images.map((img) => {
       const ageInMs = now - new Date(img.createdAt).getTime();
       const ageInDays = ageInMs / (1000 * 60 * 60 * 24);
-      const isRecentHour = ageInMs < 1000 * 60 * 60;
+      const isRecent = ageInMs < 1000 * 60 * 60 * 12;
       const hybridScore = (img._count.likes + 1) / (ageInDays + 1);
 
       return {
@@ -53,13 +53,16 @@ export async function GET() {
         likesCount: img._count.likes,
         hasLiked: userLikes.includes(img.id),
         hybridScore,
-        isRecentHour,
+        isRecent,
       };
     });
 
     formattedImages.sort((a, b) => {
-      if (a.isRecentHour && !b.isRecentHour) return -1;
-      if (!a.isRecentHour && b.isRecentHour) return 1;
+      if (a.isRecent && b.isRecent) {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+      if (a.isRecent && !b.isRecent) return -1;
+      if (!a.isRecent && b.isRecent) return 1;
       return b.hybridScore - a.hybridScore;
     });
 
